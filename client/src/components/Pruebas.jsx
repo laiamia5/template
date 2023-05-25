@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { cambiarDatosDelNegocio, contactarseConElNegocio, subscripcion} from "../tools/funciones"
+import { useSelector , useDispatch} from 'react-redux'
+import { obtenerProductos } from "../redux/actions";
 import {useState} from 'react'
 
 export default function Pruebas (){
+     // OBTENER REDUX------------------------
+     let productos = useSelector(state => state.productos)
+     console.log(productos)
+     const [productosderedux, setProductos] = useState(...productos)
+    useEffect(() => {
+        setProductos(productos[0])
+    }, [productos])
+
     //datos del negocio-----------------------------------------------------------------------------OK
     const [probando, setProbando] = useState({})
     const cambiarDatos = (prop, value) => {
@@ -22,6 +32,8 @@ export default function Pruebas (){
         nombre: null,
         email : null
     })
+
+   
 
     return(
         <>
@@ -46,7 +58,15 @@ export default function Pruebas (){
                 <input type="text" placeholder="nombre" name='nombre' onChange={(e) => setDatosSubscripcion({...datosSubscripcion, nombre : e.target.value})}/>
                 <button>send</button>
             </form>
-        
+        {
+        productosderedux?.map((e, index) =>{
+            console.log(productosderedux)
+            return(
+                <div style={{marginBottom: '10px', backgroundColor: '#FFF3FC'}} key={index}>
+                   {String(e)}
+                </div>
+            ) 
+        })}
 
         </>
     )

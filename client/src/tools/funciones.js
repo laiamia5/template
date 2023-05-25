@@ -111,3 +111,69 @@ export const cambiarDatosDelNegocio = (datos) => {
     .catch((err) => console.log(err))
 }
     
+
+// ________________________________________REALIZAR COMPRA___________________________________
+
+export const finalizarLaCompra = async (carrito, usuario, datosCompra) => {
+    let todosLosPedidos =  []
+    let usuarioId = ''
+    //primero hacemos los pedidos---------------
+    await carrito.forEach((element) => {
+        axios.post('http://localhost:3001/realizar-pedido', element)
+        .then((res) => todosLosPedidos.push(res.data.id) )
+        .catch((err) => console.log(err))
+    })
+
+    if(! usuario.id){
+        await axios.post('http://localhost:3001/usuarios/signup', usuario)
+        .then((res) => usuarioId = res.data.id)
+        .catch((err) => console.log(err))
+    }else{
+        await axios.get(`http://localhost:3001/usuarios/profile/${usuario.id}`)
+        .then((res) => usuarioId = res.data.id)
+        .catch((err) => console.log(err))
+    }
+
+    axios.post('http://localhost:3001/compras', {
+        usuarioId: usuarioId,
+        pedidos: todosLosPedidos,
+        ...datosCompra
+    })
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log(err))
+}
+
+
+/*usuario :
+{
+	"email": "laiamia@gmail.com",
+	"nombre": "laia",
+	"apellido": "perez",
+	"contraseña": "12345678",
+	"dni": 44724942
+}
+
+carrito: [ 
+		{
+        "cantidad": 1,
+		"talle": "XS",
+		"color": "rosa",
+		"productoId": 1,},
+        {
+        "cantidad": 1,
+		"talle": "XS",
+		"color": "rosa",
+		"productoId": 1,}
+]
+
+compra:
+    {
+        entrega: pendiente,
+		pago: pendiente,
+		medio_de_pago: mercado pago,
+		monto_final: 30000,
+        usuarioId: aasdasd45wfrds,
+        pedidos: [ 1, 2, 3]
+    }
+
+*/
