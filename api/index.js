@@ -7,6 +7,7 @@ const payRouter = require('./controller/mercadopago')
 const {database} = require('./db')
 const rutaEnvioOfertas = require('./routes/enviarOfertas')
 const rutaPedido = require('./routes/pedido')
+const rutaUsuario = require('./routes/usuario')
 const path = require('path');
 
 const app = express()
@@ -22,7 +23,7 @@ app.use('/info', rutaInfo )
 app.use('/pagar', payRouter )
 app.use('/subscripcion', rutaEnvioOfertas)
 app.use('/realizar-pedido', rutaPedido )
-
+app.use('/usuarios', rutaUsuario)
 database
 .sync({alter: true})
 .then(() => {

@@ -105,7 +105,7 @@ export const buscarUnProducto = (nombre) => {
 //VER COMO HACER PARA QUE EN CASO DE  QUE NO ESTE DECLARADO EL OBJETO EN BACKEND SE USE EL POST Y SI ESTA DECLARADO ENTONCES PUT
 export const cambiarDatosDelNegocio = (datos) => {
     axios.put('http://localhost:3001/info', datos)
-    .then((res) => console.log('cambiar esta respuesta por el mensaje que envia desde el backend la peticion')  )
+    .then((res) => alert(res.data)  )
     .catch((err) => console.log(err))
 }
     
