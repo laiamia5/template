@@ -40,6 +40,14 @@ module.exports = (sequelize) => {
         },
         direccion_barrio:  {
             type: DataTypes.TEXT
+        },
+        registrado: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
+        admin:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     },{timestamps: false})
 }

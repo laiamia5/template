@@ -21,8 +21,8 @@ rutaPedido.post('/', async (req, res) => {
             talle,
             color
         })
-        algo.setProducto(productoId)
-        res.status(200).send('salio bien')
+        await algo.setProducto(productoId)
+        res.status(200).send(algo)
     }catch(err){
         res.send(err)
     }

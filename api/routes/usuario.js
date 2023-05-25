@@ -30,14 +30,14 @@ rutaUsuario.post('/signup', async (req, res) => {
         const hash = await bcrypt.hash(contraseña, 10)
 
         if(usuario_ingresante == null){
-            await usuario.create({
+            let creacion = await usuario.create({
                 nombre: nombre,
                 apellido: apellido,
                 email: email,
                 contraseña: hash,
                 dni: dni
              })
-             res.status(200).send('se ha creado el usuario exitosamente')
+             res.status(200).send(creacion)
         }else{
             res.status(400).send('error! el usuario ya existe, inicia sesion con el mismo o crea una cuenta diferente')
         }

@@ -35,10 +35,10 @@ rutaCompras.post('/', async (req, res) => {
         medio_de_pago,
         monto_final       
        })
-       realizar_compra.addPedido(pedidos) 
-       realizar_compra.setUsuario(usuarioId)
+       await realizar_compra.addPedido(pedidos) 
+       await realizar_compra.setUsuario(usuarioId)
 
-       res.status(200).send('compra realizada de forma exitosa')
+       res.status(200).send(realizar_compra)
     }catch(err){
        res.status(400).send(err.message)
     }
