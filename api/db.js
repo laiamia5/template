@@ -30,4 +30,9 @@ pedido.belongsTo(producto);
 compra.belongsToMany(pedido, {through: 'compra-pedidos'});
 pedido.belongsToMany(compra, {through: 'compra-pedidos'});
 
+usuario.hasMany(compra,{
+  foreignKey:'usuarioId'
+})
+compra.belongsTo(usuario);
+
 module.exports = {database, producto,  compra, info, ofertas, pedido, usuario} 

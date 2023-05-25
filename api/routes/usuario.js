@@ -6,7 +6,6 @@ require('dotenv').config()
 
 const rutaUsuario  = Router()
 
-
 // ---------------------------------------OBTENER TODOS LOS USUARIOS--------------------------------------
 
 rutaUsuario.get('/', async (req, res) => {
@@ -18,17 +17,6 @@ rutaUsuario.get('/', async (req, res) => {
         res.status(400).send('no')
     }
 })
-// ---------------------------------------OBTENER LOS USUARIOS CON SUS COMPRAS--------------------------------------
-
-// routesUser.get('/compras', async (req, res) => {
-//     try{
-//         let data = await usuario.findAll( )
-//         res.status(200).json(data)
-//     }
-//     catch(err){
-//         res.status(400).send(err)
-//     }
-// })
 
 //--------------------------------------------CREAR USUARIO---------------------------------------------------------
 
@@ -109,7 +97,7 @@ const verifyToken = (req, res, next) => {
 
 // -----------------------------OBTENER PERFIL DE USUARIO------------------------------
 
-rutaUsuario.get('/profile/:id', verifyToken, async (req, res) => { 
+rutaUsuario.get('/profile/:id',  async (req, res) => { 
 
     let idusuario = req.params.id
     console.log(req.cookies)
@@ -121,7 +109,6 @@ rutaUsuario.get('/profile/:id', verifyToken, async (req, res) => {
     }
 
 })
-0
 
 // -------------------------------COMPLETAR INFORMACION DEL USUARIO-------------------------------------------
 

@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const {compra, producto, pedido} = require('../db')
+const {compra, producto, pedido, usuario} = require('../db')
 
 const rutaCompras = Router()
 
@@ -8,13 +8,14 @@ const rutaCompras = Router()
 rutaCompras.get('/', async (req, res) => {
     try{
         let todas_las_compras = await compra.findAll({
-            include: {
-                model: pedido,
+            include: [
+               { model: pedido,
                 through:{
                     attributes: []
                 },
-                include: {model: producto}
-            },
+                include: {model: producto}},
+                {model: usuario}
+            ],
             })
         res.status(200).json(todas_las_compras)
     }catch(err){
@@ -25,7 +26,7 @@ rutaCompras.get('/', async (req, res) => {
 //============================ REALIZAR COMPRA ========================================
 
 rutaCompras.post('/', async (req, res) => {
-    const {entrega, pago, medio_de_pago, monto_final, pedidos} = req.body
+    const {entrega, pago, medio_de_pago, monto_final, pedidos, usuarioId} = req.body
 
     try{
        let realizar_compra = await compra.create({
@@ -35,6 +36,8 @@ rutaCompras.post('/', async (req, res) => {
         monto_final       
        })
        realizar_compra.addPedido(pedidos) 
+       realizar_compra.setUsuario(usuarioId)
+
        res.status(200).send('compra realizada de forma exitosa')
     }catch(err){
        res.status(400).send(err.message)
