@@ -9,6 +9,7 @@ import {
     OBTENER_DATOS_DEL_NEGOCIO,
     OBTENER_PRODUCTOS,
     BUSCAR_UN_PRODUCTO,
+    BUSCAR_PRODUCTOS_POR_CATEGORIA_Y_NOMBRE,
     
 } from './actions'
 
@@ -18,15 +19,13 @@ let parseo = JSON.parse(storage)
 const initialState = {
     carrito: parseo ? parseo : [] ,
     productos: [],
-    detalle_producto: {},
     datos_del_negocio: {},
 }
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case  AGREGAR_AL_CARRITO:
-            console.log(state)
-            let encontrarProd = state.carrito.find((e) => e.id === action.payload.id )
+            let encontrarProd = state.carrito.find((e) => e.productoId === action.payload.productoId )
             if(!encontrarProd){
                 return{
                     ...state,
@@ -34,23 +33,22 @@ const reducer = (state = initialState, action) => {
                 }
             }else encontrarProd.cantidad ++
         case AUMENTAR_CANTIDAD:
-            state.carrito.find((e) => e.id == action.payload).cantidad ++
-            console.log(state)
+            state.carrito.find((e) => e.productoId == action.payload).cantidad ++
             return{
                 ...state,
                 carrito: state.carrito
             }
         case DISMINUIR_CANTIDAD:
-            let productoCarr = state.carrito.find((e) => e.id == action.payload)
+            let productoCarr = state.carrito.find((e) => e.productoId == action.payload)
             productoCarr.cantidad !== 0 && productoCarr.cantidad --
             return{
                 ...state,
-                carrito: productoCarr.cantidad === 0 ?  state.carrito.filter((e) => e.id !== action.payload) : state.carrito
+                carrito: productoCarr.cantidad === 0 ?  state.carrito.filter((e) => e.productoId !== action.payload) : state.carrito
             }
         case ELIMINAR_DEL_CARRITO:
             return{
                 ...state,
-                carrito: state.carrito.filter((e) => e.id !== action.payload) 
+                carrito: state.carrito.filter((e) => e.productoId !== action.payload) 
             }
         case FINALIZAR_Y_VACIAR:
             return{
@@ -72,15 +70,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 productos: action.payload
             }
+        case BUSCAR_PRODUCTOS_POR_CATEGORIA_Y_NOMBRE:
+            return{
+                ...state,
+                productos: action.payload
+            }
         case OBTENER_DATOS_DEL_NEGOCIO:
             return{
                 ...state,
                 datos_del_negocio: action.payload
-            }
-        case BUSCAR_UN_PRODUCTO:
-            return {
-                ...state,
-                detalle_producto: action.payload
             }
         default :
             return state

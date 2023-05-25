@@ -10,16 +10,16 @@ export const BUSCAR_PRODUCTOS_POR_CATEGORIA = 'BUSCAR_PRODUCTOS_POR_CATEGORIA'
 export const INFO_DEL_NEGOCIO = 'INFO_DEL_NEGOCIO'
 export const OBTENER_DATOS_DEL_NEGOCIO = 'OBTENER_DATOS_DEL_NEGOCIO'
 export const BUSCAR_UN_PRODUCTO = 'BUSCAR_UN_PRODUCTO'
+export const BUSCAR_PRODUCTOS_POR_CATEGORIA_Y_NOMBRE = 'BUSCAR_PRODUCTOS_POR_CATEGORIA_Y_NOMBRE'
 
 // ---------------------------------FUNCIONES DEL CARRITO -----------------------------------------------
 
 export const agregarAlCarrito = (obj) => async (dispatch) => {
     let newOb = {
-        ...obj,
-        cantidad: 1,
-        usuarioId: null,
-        productoId: obj.id,
-        pago: null
+        cantidad: obj.cantidad,
+        color: obj.color,
+        talle: obj.talle,
+        productoId: obj.productoId,
     }
     return dispatch({type:AGREGAR_AL_CARRITO, payload: newOb})
 }
@@ -37,16 +37,10 @@ export const eliminarDelCarrito = (id) => async (dispatch) => {
     return dispatch({type: ELIMINAR_DEL_CARRITO, payload: id})
 }
 
-export const finalizarCompra = (idUsuario, carrito) => async (dispatch) => {
-    carrito.forEach((e) => {
-        axios.post('http://localhost:3001/compras', {
-            productoId: e.id,
-            cantidad: e.cantidad,
-            usuarioId: idUsuario
-        })
-    })
+export const finalizarYVaciar = (idUsuario, carrito) => async (dispatch) => {
     return dispatch({type: FINALIZAR_Y_VACIAR, payload: idUsuario})
 }
+
 
 //---------------------------------FUNCIONES DE LOS PRODUCTOS MOSTRADOS EN DOM.-------------------------------------
 
@@ -74,10 +68,10 @@ export const buscarProductosPorCategoria = (value) => async (dispatch) => {
     .catch((err) => console.log(err) )
 }
 
-export const buscarUnProducto = (id) => async (dispatch) => {
-    axios.get(`http://localhost:3001/productos/${id}`)
+export const buscarProductosPorCategoriaYNombre = (categoria, nombre) => async (dispatch) => {
+    axios.get(`http://localhost:3001/productos/buscar?categoria=${categoria}&nombre=${nombre}`)
     .then((res) => {
-        return dispatch({type: BUSCAR_UN_PRODUCTO , payload: res.data})
+        return dispatch({type: BUSCAR_PRODUCTOS_POR_CATEGORIA_Y_NOMBRE, payload: res.data})
     })
     .catch((err) => console.log(err) )
 }
@@ -88,8 +82,4 @@ export const obtenerDatosDelNegocio = () => async (dispatch) => {
     .then((res) => dispatch({type: OBTENER_DATOS_DEL_NEGOCIO, payload: res.data}))
     .catch((err) => console.log(err))
 }
-
-
-
-//-----------------------------FINALIZAR COMPRA----------------------------------------------
 

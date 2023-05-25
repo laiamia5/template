@@ -91,6 +91,8 @@ export const buscarUnProducto = (nombre) => {
     .then((res) =>  console.log('cambiar esta respuesta por el mensaje que envia desde el backend la peticion') )
     .catch((err) => console.log(err))
 }
+
+
     
 //_____________________________________CAMBIAR INFO DEL NEGOCIO____________________________________
 /*{
