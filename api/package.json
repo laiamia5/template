@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mercadopago": "^1.5.16",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.22",
+    "path": "^0.12.7",
+    "pg": "^8.10.0",
+    "sequelize": "^6.31.0"
+  }
+}
